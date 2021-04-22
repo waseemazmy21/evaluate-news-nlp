@@ -1,3 +1,8 @@
+const baseURL = 'https://api.meaningcloud.com/sentiment-2.1';
+
+const dotenv = require('dotenv');
+dotenv.config();
+
 var path = require('path')
 const express = require('express')
 const mockAPIResponse = require('./mockAPI.js')
@@ -31,3 +36,24 @@ app.listen(8081, function () {
 app.get('/test', function (req, res) {
     res.send(mockAPIResponse)
 })
+
+
+
+app.post("/add", async (req,res)=>{
+
+     const {url} = req.body;
+     console.log(url)
+     try{
+         
+         const response = await fetch(`${baseURL}?key=${process.env.apiKey}&url=${url}&lang=en`)
+         const data = await response.json();
+         res.send(data);
+
+     }catch(error){
+        console.log(error)
+     }
+
+})
+
+
+
